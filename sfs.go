@@ -34,7 +34,7 @@ func getConfigParams() *ConfigParams {
 func serveStaticContent(params *ConfigParams) {
 	http.Handle("/", http.FileServer(http.Dir(*params.folder)))
 
-	if err := http.ListenAndServe(":" + *params.port, noCacheHandler(http.DefaultServeMux)); err != nil {
+	if err := http.ListenAndServe(":" + *params.port, decorateDefaultHttpHandler()); err != nil {
 		log.Fatal("ListenAndServe:", err)
 	}
 }
@@ -47,6 +47,25 @@ func waitUntilKeyPress() {
 	fmt.Println("Press <Enter> to stop serving files...")
 	var end string
 	fmt.Scanln(&end)
+}
+
+func decorateDefaultHttpHandler() http.Handler {
+	return noCacheHandler(http.DefaultServeMux)
+}
+
+func noCacheHandler(handler http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		r.Header.Del("If-None-Match")
+		r.Header.Del("If-Range")
+		r.Header.Del("If-Modified-Since")
+
+		w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
+		if r.Proto == "HTTP/1.0" {
+			w.Header().Set("Pragma", "no-cache")
+		}
+
+		handler.ServeHTTP(w, r)
+	})
 }
 
 func openbrowser(url string) {
@@ -66,19 +85,4 @@ func openbrowser(url string) {
 		log.Fatal(err)
 	}
 
-}
-
-func noCacheHandler(handler http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		r.Header.Del("If-None-Match")
-		r.Header.Del("If-Range")
-		r.Header.Del("If-Modified-Since")
-
-		w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
-		if r.Proto == "HTTP/1.0" {
-			w.Header().Set("Pragma", "no-cache")
-		}
-
-		handler.ServeHTTP(w, r)
-	})
 }
