@@ -2,12 +2,12 @@
 
 ## Usage
 
-Just execute `sfs.exe` (in Windows) or `sfs` (in macOS) to start serving static files present in the current folder on the **8080** port.
+Just execute `sfs.exe` (in Windows) or `sfs` (in macOS) to start serving static files present in the **./www** folder on the **8080** port.
 
 If you find any conflicts running this you can configure some application aspects via running it with some parameters:
 
 * `-port`: You can pass by a new port different from the default **8080**
-* `-folder`: You can pass by a new folder different from the current folder
+* `-folder`: You can pass by a new folder different from the **./www** folder
 
 ## Usage Requisites
 

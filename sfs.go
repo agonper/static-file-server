@@ -25,7 +25,7 @@ func getConfigParams() *ConfigParams {
 	configParams := &ConfigParams{}
 
 	configParams.port = flag.String("port", "8080", "The port in wich to run the static file web server")
-	configParams.folder = flag.String("folder", "./", "The name of the folder to be served")
+	configParams.folder = flag.String("folder", "./www", "The name of the folder to be served")
 
 	flag.Parse()
 	return configParams
