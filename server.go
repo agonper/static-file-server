@@ -34,7 +34,7 @@ func getConfigParams() *ConfigParams {
 func serveStaticContent(params *ConfigParams) {
 	http.Handle("/", http.FileServer(http.Dir(*params.folder)))
 
-	if err := http.ListenAndServe(":" + *params.port, nil); err != nil {
+	if err := http.ListenAndServe(":" + *params.port, noCacheHandler(http.DefaultServeMux)); err != nil {
 		log.Fatal("ListenAndServe:", err)
 	}
 }
@@ -66,4 +66,19 @@ func openbrowser(url string) {
 		log.Fatal(err)
 	}
 
+}
+
+func noCacheHandler(handler http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		r.Header.Del("If-None-Match")
+		r.Header.Del("If-Range")
+		r.Header.Del("If-Modified-Since")
+
+		w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
+		if r.Proto == "HTTP/1.0" {
+			w.Header().Set("Pragma", "no-cache")
+		}
+
+		handler.ServeHTTP(w, r)
+	})
 }
