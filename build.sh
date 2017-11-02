@@ -1,1 +1,1 @@
-go build -o run
+go build -o sfs

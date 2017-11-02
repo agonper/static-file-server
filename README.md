@@ -2,12 +2,12 @@
 
 ## Usage
 
-Just execute `run.exe` (in Windows) or `run` (in macOS) to start serving static files present in **./public** folder on the **8081** port.
+Just execute `sfs.exe` (in Windows) or `sfs` (in macOS) to start serving static files present in the current folder on the **8080** port.
 
 If you find any conflicts running this you can configure some application aspects via running it with some parameters:
 
-* `-port`: You can pass by a new port different from the default **8081**
-* `-folder`: You can pass by a new folder different from **./public**
+* `-port`: You can pass by a new port different from the default **8080**
+* `-folder`: You can pass by a new folder different from the current folder
 
 ## Usage Requisites
 

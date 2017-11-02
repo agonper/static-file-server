@@ -1,1 +1,1 @@
-go build -o run.exe
+go build -o sfs.exe
