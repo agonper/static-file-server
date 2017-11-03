@@ -2,6 +2,8 @@
 
 ## Usage
 
+Download latest release from releases folder
+
 Just execute `sfs.exe` (in Windows) or `sfs` (in macOS) to start serving static files present in the **./www** folder on the **8080** port.
 
 If you find any conflicts running this you can configure some application aspects via running it with some parameters:

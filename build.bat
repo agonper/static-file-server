@@ -1,1 +1,1 @@
-go build -o dist\sfs.exe
+go build -o dist\sfs-win.exe
